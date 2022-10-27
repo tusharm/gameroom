@@ -1,15 +1,11 @@
-"""
-Starting Template
-
-"""
 import arcade
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Starting Template"
+SCREEN_TITLE = "My Awesome Game"
 
 
-class MyGame(arcade.Window):
+class Game(arcade.Window):
     """
     Main application class.
 
@@ -18,10 +14,10 @@ class MyGame(arcade.Window):
     with your own code. Don't leave 'pass' in this program.
     """
 
-    def __init__(self, width, height, title):
+    def __init__(self, title=SCREEN_TITLE, width=SCREEN_WIDTH, height=SCREEN_HEIGHT):
         super().__init__(width, height, title)
 
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.WHITE_SMOKE)
 
         # If you have sprite lists, you should create them here,
         # and set them to None
@@ -82,13 +78,6 @@ class MyGame(arcade.Window):
         """
         pass
 
-
-def main():
-    """ Main method """
-    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game.setup()
-    arcade.run()
-
-
-if __name__ == "__main__":
-    main()
+    @classmethod
+    def run(self):
+        arcade.run()
