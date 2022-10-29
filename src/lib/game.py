@@ -1,4 +1,7 @@
 import arcade
+import random
+
+from lib.sprite import Sprite
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -6,36 +9,19 @@ SCREEN_TITLE = "My Awesome Game"
 
 
 class Game(arcade.Window):
-    """
-    Main application class.
-
-    NOTE: Go ahead and delete the methods you don't need.
-    If you do need a method, delete the 'pass' and replace it
-    with your own code. Don't leave 'pass' in this program.
-    """
-
     def __init__(self, title=SCREEN_TITLE, width=SCREEN_WIDTH, height=SCREEN_HEIGHT):
         super().__init__(width, height, title)
 
-        arcade.set_background_color(arcade.color.WHITE_SMOKE)
+        arcade.set_background_color(arcade.color.AIR_FORCE_BLUE)
 
-        # If you have sprite lists, you should create them here,
-        # and set them to None
-
-    def setup(self):
-        # Create your sprites and sprite lists here
-        pass
+        self.sprites = arcade.SpriteList()
 
     def on_draw(self):
-        """
-        Render the screen.
-        """
-
         # This command should happen before we start drawing. It will clear
         # the screen to the background color, and erase what we drew last frame.
         arcade.start_render()
 
-        # Call draw() on all your sprite lists below
+        self.sprites.draw()
 
     def on_update(self, delta_time):
         """
@@ -43,22 +29,17 @@ class Game(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        self.sprites.on_update()
 
     def on_key_press(self, key, key_modifiers):
-        """
-        Called whenever a key on the keyboard is pressed.
-
-        For a full list of keys, see:
-        http://arcade.academy/arcade.key.html
-        """
-        pass
+        for s in self.sprites:
+            if getattr(s, "key_aware", None):
+                s.on_key_press(key, key_modifiers)
 
     def on_key_release(self, key, key_modifiers):
-        """
-        Called whenever the user lets off a previously pressed key.
-        """
-        pass
+        for s in self.sprites:
+            if getattr(s, "key_aware", None):
+                s.on_key_release(key, key_modifiers)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
@@ -78,6 +59,14 @@ class Game(arcade.Window):
         """
         pass
 
-    @classmethod
+    def add_sprite(self, sprite: Sprite):
+        self.sprites.append(sprite)
+
+    def run_every_seconds(self, fn, interval_in_secs: float):
+        def scheduled_fn(delta_time: float):
+            fn(self)
+
+        arcade.schedule(scheduled_fn, interval_in_secs)
+
     def run(self):
         arcade.run()
