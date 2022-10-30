@@ -33,12 +33,12 @@ class Game(arcade.Window):
 
     def on_key_press(self, key, key_modifiers):
         for s in self.sprites:
-            if getattr(s, "key_aware", None):
+            if s.interactive:
                 s.on_key_press(key, key_modifiers)
 
     def on_key_release(self, key, key_modifiers):
         for s in self.sprites:
-            if getattr(s, "key_aware", None):
+            if s.interactive:
                 s.on_key_release(key, key_modifiers)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
